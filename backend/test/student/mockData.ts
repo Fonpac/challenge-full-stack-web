@@ -1,5 +1,4 @@
 import { Student } from '@prisma/client'
-import { CreateStudentDto, StudentDto, UpdateStudentDto } from '../../src/dtos/student.dto'
 
 export let mockStudentList: Student[] = [
     {
