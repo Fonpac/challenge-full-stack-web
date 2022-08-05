@@ -1,0 +1,32 @@
+version: '3.3'
+services:
+    mysql:
+        platform: linux/x86_64
+        container_name: mysql
+        image: mysql:5.7
+        restart: always
+        command: [ '--log_bin_trust_function_creators=1' ]
+        ports:
+            - '3306:3306'
+        expose:
+            - '3306'
+        networks:
+            - dev
+        env_file:
+            - .env
+    phpmyadmin:
+        container_name: phpmyadmin
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - '7777:80'
+        restart: unless-stopped
+        environment:
+            - TZ=America/Sao_Paulo
+            - PMA_HOST=mysql
+            - PMA_PORT=3306
+            - UPLOAD_LIMIT=100M
+        networks:
+            - dev
+networks:
+    dev:
+        driver: bridge

@@ -1,0 +1,6 @@
+MYSQL_DATABASE=test
+MYSQL_USER=test
+MYSQL_PASSWORD=test
+MYSQL_ROOT_PASSWORD=test
+
+DATABASE_URL="mysql://root:test@127.0.0.1:3306/test"
