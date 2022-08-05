@@ -8,3 +8,8 @@ export class CreateStudentDto {
     ra: string
     cpf: string
 }
+
+export class UpdateStudentDto {
+    name?: string
+    email?: string
+}
