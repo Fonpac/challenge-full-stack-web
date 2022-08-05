@@ -1,7 +1,8 @@
+import { Delete } from '@nestjs/common'
 import { Body, Controller, Get, Post, Param, Patch } from '@nestjs/common'
 import { Student } from '@prisma/client'
-import { CreateStudentDto, StudentDto, UpdateStudentDto } from 'src/dtos/student.dto'
-import { StudentService } from 'src/services/student.service'
+import { CreateStudentDto, StudentDto, UpdateStudentDto } from '../dtos/student.dto'
+import { StudentService } from '../services/student.service'
 
 @Controller('student')
 export class StudentController {
@@ -15,13 +16,13 @@ export class StudentController {
     }
 
     @Get(':id')
-    async getById(@Param('id') id: number): Promise<StudentDto> {
-        let student: Student = await this.studentService.getById(id)
+    async getById(@Param('id') id: string): Promise<StudentDto> {
+        let student: Student = await this.studentService.getById(Number(id))
 
         return new StudentDto(student)
     }
 
-    @Post('/create')
+    @Post()
     async createStudent(@Body() createStudentDto: CreateStudentDto): Promise<StudentDto> {
         let newStudent: Student = await this.studentService.create(createStudentDto)
 
@@ -30,11 +31,18 @@ export class StudentController {
 
     @Patch(':id')
     async updateStudent(
-        @Param('id') id: number,
+        @Param('id') id: string,
         @Body() updateStudentDto: UpdateStudentDto
     ): Promise<StudentDto> {
-        let updatedStudent: Student = await this.studentService.update(id, updateStudentDto)
+        let updatedStudent: Student = await this.studentService.update(Number(id), updateStudentDto)
 
         return new StudentDto(updatedStudent)
+    }
+
+    @Delete(':id')
+    async deleteStudent(@Param('id') id: string): Promise<Student> {
+        let deletedStudent: Student = await this.studentService.delete(Number(id))
+
+        return new StudentDto(deletedStudent)
     }
 }
