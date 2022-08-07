@@ -12,7 +12,20 @@
                         <span></span>
                     </div>
                     <div v-if="subMenuOpen">
-                        <div class="subitem">Alunos</div>
+                        <div
+                            class="subitem"
+                            @click="$router.push('/')"
+                            :class="{ selected: path == '/' }"
+                        >
+                            Alunos
+                        </div>
+                        <div
+                            class="subitem"
+                            @click="$router.push('/create')"
+                            :class="{ selected: path == '/create' }"
+                        >
+                            Novo aluno
+                        </div>
                     </div>
                 </div>
             </div>
@@ -21,7 +34,9 @@
         <v-app-bar app>
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-            <v-toolbar-title>Consulta de alunos</v-toolbar-title>
+            <v-toolbar-title>
+                {{ path == '/' ? 'Consulta de alunos' : 'Cadastro de aluno' }}</v-toolbar-title
+            >
         </v-app-bar>
 
         <v-main>
@@ -30,10 +45,16 @@
     </v-app>
 </template>
 
-<script>
-export default {
-    data: () => ({ drawer: true, subMenuOpen: true })
-}
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const drawer = ref(true)
+const subMenuOpen = ref(true)
+
+const route = useRoute()
+
+const path = computed(() => route.path)
 </script>
 
 <style lang="scss">
@@ -49,6 +70,7 @@ export default {
         gap: 8px;
         color: white;
         padding-left: 16px;
+        border-bottom: 1px solid white;
     }
     .subitem {
         height: 32px;
@@ -58,6 +80,11 @@ export default {
         align-items: center;
         background-color: lightgrey;
         color: black;
+        cursor: pointer;
+        &.selected {
+            color: white;
+            background-color: grey;
+        }
     }
 }
 </style>
